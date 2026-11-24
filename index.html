@@ -121,10 +121,52 @@ const FAQ=[
 {id:"legal",k:[[/abogado|asesoria|asesor|mi caso real|puedo demandar|demanda|denuncia|es legal|es ilegal/,12]],a:"Culpable o No es un juego educativo y yo soy solo la asistente del juego 🙅 No doy asesoría legal personalizada. Si tienes un caso real, consulta con un profesional del derecho."},
 {id:"identidad",k:[[/quien eres|como te llamas|que eres|eres (un )?(robot|humana|zirel)|zirel/,14]],a:"¡Soy Zirel! 💗 La asistente virtual de Culpable o No. Estoy aquí para resolver tus dudas sobre el juego y ayudarte a conocer más sobre tus derechos ⚖️"},
 {id:"tecnico",k:[[/(no|nunca) (me )?(funciona|carga|abre|deja|sirve|responde)|se (trab|cuelg|congel)|\bbug\b|\bfalla\b|problema tecnico|problema con el juego|no puedo (entrar|ingresar|jugar)/,14]],a:TECH}];
+/* ===== INTEGRACIÓN: INICIA SEGURO – Kit de Contratos Jurídicos ===== */
+const ISW="https://sites.google.com/d/1ARPEONEahEvtxPbMUCo7hB1JLs9o5SpM/p/1pmfFjBIIwyfTkUrkOg539F0Qb9KATCK5/edit";
+const ISL="\n\n🌐 ¿Quieres conocer más sobre Inicia Seguro? Accede a toda la información de su proyecto, servicios y demás detalles en su página web:\n[[IS]]";
+const IS_GEN="Inicia Seguro – Kit de Contratos Jurídicos es un proyecto que ofrece soluciones jurídicas prácticas y accesibles mediante modelos de contratos, orientación legal y herramientas digitales para ayudar a las personas a proteger sus derechos y acuerdos 🛡️ Fue desarrollado por otro equipo de la Universidad César Vallejo.";
+const IS_MIS="La misión de Inicia Seguro es brindar asistencia documental y orientación jurídica accesible, confiable y práctica para que las personas puedan comprender sus derechos y tomar decisiones informadas 🛡️";
+const IS_VIS="La visión de Inicia Seguro es ser una plataforma digital de referencia en soluciones jurídicas en el Perú, destacando por su innovación, cercanía y compromiso con la educación legal 🛡️";
+const IS_PRO="El propósito de Inicia Seguro es ayudar a emprendedores, profesionales y ciudadanos a proteger sus acuerdos, conocer sus derechos y acceder a herramientas jurídicas de manera sencilla 🛡️";
+const IS_SER="Los servicios de Inicia Seguro son:\n\n📄 Kit de contratos jurídicos.\n⚖️ Asesoría y orientación legal.\n💬 Chat jurídico interactivo.\n📚 Educación jurídica.\n📅 Agenda para consultas y asesorías.\n🎮 Juegos interactivos para aprender Derecho.";
+const IS_CON="Inicia Seguro ofrece un kit de contratos jurídicos: modelos de contratos que ayudan a las personas a proteger sus acuerdos 📄 No tengo confirmado el detalle de qué contratos incluye, así que prefiero no inventarlo.";
+const IS_PRE="Por ahora no tengo confirmados los precios ni los paquetes de Inicia Seguro, así que prefiero no inventarlos 💗 Puedes consultar ese detalle en su página web.";
+const IS_INT="El equipo de Inicia Seguro está formado por:\n\n⚖️ Stepphano Cautter: Derecho Civil.\n⚖️ Patricia Rios: Derecho Penal.\n⚖️ Alvin Smith: Derecho Laboral.";
+const IS_CIV="En Inicia Seguro, el área de Derecho Civil está a cargo de Stepphano Cautter ⚖️";
+const IS_PEN="En Inicia Seguro, el área de Derecho Penal está a cargo de Patricia Rios ⚖️";
+const IS_LAB="En Inicia Seguro, el área de Derecho Laboral está a cargo de Alvin Smith ⚖️";
+const IS_UNK="No tengo esa información confirmada sobre Inicia Seguro, así que prefiero no inventarla 💗 Puedes encontrar todos los detalles en su página web.";
+const IS_COLAB="¡Sí! 💗 Soy Zirel, la asistente de Culpable o No ⚖️, y también puedo contarte sobre Inicia Seguro – Kit de Contratos Jurídicos, un emprendimiento de otro equipo de la Universidad César Vallejo.\n\n🎮 Culpable o No: juego educativo e interactivo para aprender tus derechos con situaciones de la vida cotidiana.\n📄 Inicia Seguro: soluciones jurídicas prácticas y accesibles mediante modelos de contratos, orientación legal y herramientas digitales.";
+const IS_STRONG=/\bin[i]?[cs]i?[ao]\s*seg\w*|\bkits?\b|contratos? juridic\w*|modelos? de contratos?|stepphano|stephano|cautter|patricia rios|alvin smith/;
+const IS_FREE=/\bmision\b|\bvision\b|paquetes?\b|contratos?\b|derecho (civil|penal)|\bpatricia\b|\balvin\b/;
+const IS_CTX=/mision|vision|proposito|objetivo|finalidad|integrante|equipo|creador|quienes (son|lo|los)|abogad|civil|penal|laboral|derecho|servicio|ofrec|brindan|asesori|orientacion|chat|agenda|consulta|educacion|juegos|que hacen|que hace|incluye|precio|cuesta|cuanto|costo|tarifa|paquete|\bplan(es)?\b|pagar|pago|cotiz|contrato|modelo|plantilla|\binfo\b|informacion|detalles|que es|para que sirve|de que trata|\bweb\b|pagina|enlace|\blink\b/;
+const IS_GAME=/culpable o no|zirel|\bjuego\b|jugar|\bcasos?\b|nivel|corazon|moneda|personaje|armario|guardarropa|veredicto|progreso|partida|reinici|\bvidas?\b/;
+let isCtx=false;
+function isAnswer(n){
+ if(/precio|cuesta|cuestan|cuanto|costo|tarifa|paquete|\bplan(es)?\b|pagar|pago|cotiz|gratis|valor/.test(n))return IS_PRE;
+ if(/stepphano|stephano|cautter|\bcivil\b/.test(n))return IS_CIV;
+ if(/patricia|\brios\b|\bpenal\b/.test(n))return IS_PEN;
+ if(/alvin|smith|\blaboral\b/.test(n))return IS_LAB;
+ if(/integrante|equipo|creador|quienes (son|lo|los)|quien(es)? (hizo|hicieron|creo|crearon|esta detras|estan detras)|abogad|miembros|responsables|autores|desarrolladores|estudiantes/.test(n))return IS_INT;
+ if(/mision/.test(n))return IS_MIS;
+ if(/\bvision\b/.test(n))return IS_VIS;
+ if(/proposito|objetivo|finalidad|razon de ser/.test(n))return IS_PRO;
+ if(/servicio|ofrec|brindan|asesori|orientacion|chat|agenda|consulta|educacion|juegos|que hacen|incluye/.test(n))return IS_SER;
+ if(/contrato|\bkits?\b|modelo|plantilla|formato/.test(n))return IS_CON;
+ const rest=n.replace(new RegExp(IS_STRONG.source,"g")," ").replace(/\b(que|es|el|la|los|las|lo|de|del|sobre|info|informacion|cuentame|hablame|dime|dame|me|un|una|y|e|quiero|saber|conocer|mas|acerca|hola|ayuda|oye|porfa|favor|por|a|en|esto|este|eso|proyecto|emprendimiento|web|pagina|enlace|link)\b/g," ").replace(/[^a-z0-9]+/g," ").trim();
+ if(rest.length<2||/que es|para que sirve|de que trata|de que se trata|cuentame|hablame|que hace\b|informacion|conocer|\binfo\b|detalles|pagina|\bweb\b|enlace|\blink\b/.test(n))return IS_GEN;
+ return IS_UNK}
+function isTry(n){
+ const strong=IS_STRONG.test(n);
+ if(!strong&&(IS_GAME.test(n)||!(IS_FREE.test(n)||(isCtx&&IS_CTX.test(n)))))return null;
+ if(strong&&/culpable o no/.test(n))return IS_COLAB+ISL;
+ return isAnswer(n)+ISL}
+/* ===== FIN INTEGRACIÓN INICIA SEGURO ===== */
 function norm(t){return t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[¿?¡!.,;:«»"“”()]/g," ").replace(/\s+/g," ").trim()}
 function match(t){const n=norm(t);let best=null,sc=0;FAQ.forEach(f=>{let s=0;f.k.forEach(p=>{if(p[0].test(n))s+=p[1]});if(s>sc){sc=s;best=f}});return sc>=3?best:null}
 function reply(t){
  const n=norm(t);
+ const isr=isTry(n);if(isr){isCtx=true;return isr}isCtx=false;
  if(n.length<28&&/^(hola+|holi+|buenas|buenos dias|buenas tardes|buenas noches|hey|ola)\b/.test(n))return "¡Holaaa! 💗✨ ¿En qué te ayudo con Culpable o No? Escríbeme tu pregunta y te ayudo.";
  if(n.length<40&&/\bgracias\b/.test(n))return "¡De nada! 💗 Aquí estaré para lo que necesites sobre Culpable o No. ¡A jugar y descubrir! ⚖️";
  if(n.length<30&&/^(adios|chao|chau|hasta luego|nos vemos)\b/.test(n))return "¡Hasta pronto! 💗 Cuando quieras, vuelve a preguntarme. ¡Cada decisión cuenta! ⚖️";
@@ -132,9 +174,9 @@ function reply(t){
 const AV=document.getElementById("av").src;
 const chat=document.getElementById("chat"),q=document.getElementById("q");
 for(let i=0;i<14;i++){const s=document.createElement("span");s.className="spk";s.style.left=(Math.random()*94)+"%";s.style.top=(Math.random()*92)+"%";s.style.animationDelay=(Math.random()*4)+"s";document.getElementById("app").appendChild(s)}
-const URLRE=/(https?:\/\/[^\s]+)/g;
+const URLRE=/(\[\[IS\]\]|https?:\/\/[^\s]+)/g;
 function openL(e,href){e.preventDefault();let w=null;try{w=window.open(href,"_blank")}catch(_){}if(w){try{w.opener=null}catch(_){}return}const x=href===GM?MAIL:href;try{navigator.clipboard.writeText(x)}catch(_){}add("No pude abrir el enlace desde aquí 😥 Cópialo y pégalo en tu navegador:\n"+x,"z")}
-function render(d,t){d.textContent="";t.split(URLRE).forEach(p=>{if(/^https?:\/\//.test(p)){const a=document.createElement("a");a.href=p;a.target="_blank";a.rel="noopener";a.textContent=p;a.onclick=e=>openL(e,p);d.append(a)}else if(p)d.append(document.createTextNode(p))})}
+function render(d,t){d.textContent="";t.split(URLRE).forEach(p=>{if(p==="[[IS]]"){const a=document.createElement("a");a.className="btn s";a.href=ISW;a.target="_blank";a.rel="noopener";a.textContent="🌐 Visitar Inicia Seguro";a.onclick=e=>openL(e,ISW);d.append(a)}else if(/^https?:\/\//.test(p)){const a=document.createElement("a");a.href=p;a.target="_blank";a.rel="noopener";a.textContent=p;a.onclick=e=>openL(e,p);d.append(a)}else if(p)d.append(document.createTextNode(p))})}
 function mk(w,href,txt,cls){const a=document.createElement("a");a.className="btn"+(cls?" "+cls:"");a.href=href;a.target="_blank";a.rel="noopener";a.onclick=e=>openL(e,href);a.textContent=txt;w.append(a)}
 function actions(d,t){const w=document.createElement("div");w.className="acts";
  if(t.includes(WEB))mk(w,WEB,"🌐 Ir a la web");
